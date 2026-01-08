@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Fira_Code } from "next/font/google";
 import Navbar from "./../components/shared/Navbar";
 import "./globals.css";
+import Footer from "./../components/shared/Footer";
 
 const sans = Inter({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className={`${sans.variable} ${mono.variable} antialiased`}>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
