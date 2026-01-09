@@ -5,7 +5,7 @@ import "./globals.css";
 import Footer from "./../components/shared/Footer";
 
 const sans = Inter({
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
