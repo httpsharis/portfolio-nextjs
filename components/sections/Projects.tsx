@@ -1,0 +1,53 @@
+import { ExternalLink } from "lucide-react";
+import { projects } from "../../config/site-config";
+
+export default function Projects() {
+  return (
+    <section id="projects" className="px-20">
+      {/* @Projects */}
+      <div className="flex mb-8 border-b border-neutral-100 dark:border-neutral-800 pb-2">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-500">
+          Selected Projects
+        </h2>
+      </div>
+
+      {/* @Mapped Projects */}
+      <div className="space-y-4">
+        {projects.map((p: projects) => (
+          <div
+            key={p.id}
+            className="group relative flex sm:flex-row sm:items-start justify-between gap-6 p-6 border border-neutral-200 dark:border-neutral-800 rounded-xl hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors bg-white dark:bg-transparent"
+          >
+            <div className="mb-4 sm:mb-0 flex-1">
+              <a
+                href={p.link || "#"}
+                target="_blank"
+                className="flex items-center gap-2 text-lg font-bold group-hover:underline decoration-1 underline-offset-4 mb-1 hover:text-brand-blue transition-colors"
+              >
+                {p.title}
+                <ExternalLink
+                  size={14}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+              </a>
+              <p className="text-neutral-600 dark:text-neutral-400 text-sm max-w-md">
+                {p.desc}
+              </p>
+            </div>
+
+            <div className="flex gap-2 flex-wrap sm:max-w-50 sm:justify-end shrink-0 mt-2 sm:mt-0">
+              {p.tags.map((t, index) => (
+                <span
+                  key={index}
+                  className="text-xs font-mono text-neutral-500 bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

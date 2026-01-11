@@ -3,7 +3,7 @@ import HeroButton from "../../lib/HeroButton";
 
 export default function Hero() {
   return (
-    <section id="home" className="mb-32 mt-8 p-20">
+    <section id="home" className="mt-8 p-20">
       <div className="inline-block px-3 py-1 mb-6 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-50 dark:bg-blue-900/20 rounded-full">
         Lahore, Pakistan
       </div>
