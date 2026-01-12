@@ -1,7 +1,12 @@
-import { Home, User, Briefcase, Mail, Cpu } from 'lucide-react';
+import { User, Briefcase, Mail, Cpu, LucideIcon } from 'lucide-react';
+import {
+    Database,
+    Layout,
+    BrainCircuit,
+    Settings
+} from "lucide-react";
 
 export const navigation = [
-    { name: 'Home', href: '/', icon: Home },
     { name: 'About', href: '#about', icon: User },
     { name: 'Projects', href: '#projects', icon: Briefcase },
     { name: 'Stack', href: '#stack', icon: Cpu },
@@ -9,7 +14,16 @@ export const navigation = [
 ];
 
 // @Info
-export const certificateData = [
+
+export interface certificateData {
+    id: number;
+    title: string;
+    issuer: string;
+    date: string;
+    link: string;
+}
+
+export const certificateData: certificateData[] = [
     {
         id: 1,
         title: "Pitman Certificate in English",
@@ -19,7 +33,14 @@ export const certificateData = [
     },
 ];
 
-export const educationData = [
+export interface educationData {
+    id: number;
+    degree: string;
+    institution: string;
+    duration: string;
+}
+
+export const educationData: educationData[] = [
     {
         id: 1,
         degree: "Bachelor's in Computer Science",
@@ -34,7 +55,16 @@ export const educationData = [
     },
 ];
 
-export const expData = [
+export interface expData {
+    id: number;
+    title: string;
+    company: string;
+    location: string
+    duration: string;
+    duties: string[];
+}
+
+export const expData: expData[] = [
     {
         id: 1,
         title: "Freelance Web Developer",
@@ -114,4 +144,62 @@ export const projects: projects[] = [
         tags: ["JavaScript", "HTML5", "CSS3"],
         link: "https://httpsharis.github.io/My-Calculator/"
     }
+];
+
+export interface Skill {
+    name: string;
+    icon: string; // This can be a path to an SVG or a classname
+    level?: string; // Optional: "Advanced", "Intermediate", "Learning"
+}
+
+export interface SkillCategory {
+    title: string;
+    icon: LucideIcon; // Lucide icon component
+    skills: Skill[];
+}
+
+export const skillsData: SkillCategory[] = [
+    {
+        title: "Frontend Development",
+        icon: Layout,
+        skills: [
+            { name: "React.js", icon: "react", level: "Advanced" },
+            { name: "Next.js 14", icon: "nextjs", level: "Intermediate" },
+            { name: "TypeScript", icon: "typescript", level: "Intermediate" },
+            { name: "Redux Toolkit", icon: "redux", level: "Advanced" },
+            { name: "Tailwind CSS", icon: "tailwind", level: "Advanced" },
+            { name: "Framer Motion", icon: "framer", level: "Intermediate" },
+        ],
+    },
+    {
+        title: "Backend & Database",
+        icon: Database,
+        skills: [
+            { name: "Node.js", icon: "nodejs", level: "Advanced" },
+            { name: "Express.js", icon: "express", level: "Advanced" },
+            { name: "MongoDB", icon: "mongodb", level: "Advanced" },
+            { name: "Mongoose ODM", icon: "mongoose", level: "Advanced" },
+            { name: "REST APIs", icon: "api", level: "Advanced" },
+        ],
+    },
+    {
+        title: "AI & Machine Learning",
+        icon: BrainCircuit,
+        skills: [
+            { name: "Python", icon: "python", level: "Intermediate" },
+            { name: "Scikit-Learn", icon: "scikit", level: "Beginner" },
+            { name: "Pandas/NumPy", icon: "pandas", level: "Beginner" },
+            { name: "KNN & Algorithms", icon: "algo", level: "Theoretical" },
+        ],
+    },
+    {
+        title: "Tools & DevOps",
+        icon: Settings,
+        skills: [
+            { name: "Git & GitHub", icon: "git", level: "Advanced" },
+            { name: "Postman", icon: "postman", level: "Advanced" },
+            { name: "Vercel", icon: "vercel", level: "Intermediate" },
+            { name: "VS Code", icon: "vscode", level: "Advanced" },
+        ],
+    },
 ];
