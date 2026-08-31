@@ -1,27 +1,125 @@
 @import "tailwindcss";
 
-/* Enable class-based dark mode for Tailwind v4 */
-@custom-variant dark (&:where(.dark, .dark *));
+@layer base {
+  :root {
+    --bg: #1d100e;
+    --surface: #0F3D3E;
+    --surface-card: #261815;
+    --surface-lowest: #170b09;
+    --surface-high: #352723;
+    --primary-accent: #FF6B4A;
+    --primary-accent-hover: #ff856b;
+    --on-primary: #1d100e;
+    --on-surface: #F5F1EA;
+    --on-surface-variant: #e1bfb8;
+    --on-surface-faint: #a88a83;
+    --whisper-border: rgba(245, 241, 234, 0.1);
+    --muted-teal: rgba(15, 61, 62, 0.6);
+    --tertiary-dim: #56d9d8;
+    color-scheme: dark;
+  }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Global Scrollbar Hiding while preserving normal scroll */
+  html,
+  body,
+  * {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Edge */
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--on-surface);
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .font-mono-label {
+    font-family: var(--font-jetbrains-mono), monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
 }
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+@layer utilities {
+  .bg-surface-teal {
+    background-color: var(--surface);
+  }
+  .bg-surface-card {
+    background-color: var(--surface-card);
+  }
+  .bg-surface-lowest {
+    background-color: var(--surface-lowest);
+  }
+  .text-primary-accent {
+    color: var(--primary-accent);
+  }
+  .text-on-surface-variant {
+    color: var(--on-surface-variant);
+  }
+  .border-whisper {
+    border-color: var(--whisper-border);
+  }
+  .bg-primary-accent {
+    background-color: var(--primary-accent);
+  }
+  .hover-primary-accent:hover {
+    background-color: var(--primary-accent-hover);
+  }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* Animated underline draw left-to-right */
+  .animated-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .animated-underline::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary-accent);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .animated-underline:hover::after {
+    width: 100%;
+  }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+

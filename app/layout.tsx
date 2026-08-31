@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Fira_Code } from "next/font/google";
-import Navbar from "./../components/shared/Navbar";
 import "./globals.css";
-import Footer from "./../components/shared/Footer";
-import { ThemeProvider } from "@/providers/theme-provider";
-
-const sans = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const mono = Fira_Code({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Nav from "@/components/layout/Nav";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "Muhammad Haris | Full Stack Developer",
-  description: "Personal Portfolio Website",
+  title: "HARIS.DEV — Muhammad Haris | Senior Full-Stack Architect",
+  description: "Muhammad Haris — Senior Full-Stack Architect building scalable digital foundations and robust web applications.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.ico",
   },
 };
 
@@ -29,19 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`bg-white dark:bg-black text-neutral-900 dark:text-white ${sans.variable} ${mono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+    <html lang="en">
+      <body className="antialiased bg-[#1d100e] text-[#F5F1EA] selection:bg-[#FF6B4A] selection:text-[#1d100e]">
+        <Nav />
+        {children}
+        <Footer />
       </body>
     </html>
   );
 }
+
+
+
