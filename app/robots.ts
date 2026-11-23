@@ -1,14 +1,14 @@
 import { MetadataRoute } from "next";
+import { siteUrl } from "@/config/site-config";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://itsharis.dev";
-
   return {
     rules: {
       userAgent: "*",
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }

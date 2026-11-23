@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
+import { personalInfo } from "@/config/site-config";
 
 export const metadata: Metadata = {
-  title: "Selected Work — Live Production Platforms & Applications",
+  title: "Selected Work — Engineering Case Studies",
   description:
-    "Explore full-stack architectural case studies, custom business invoicing systems, e-commerce platforms, and client portals built by Muhammad Haris.",
+    "Explore full-stack, mobile, AI, and distributed systems case studies built by Muhammad Haris — including Saldo, Alboré Accountants Client Portal, Writely, Distributed Chat System, and Haseeb Traders.",
   alternates: {
     canonical: "/projects",
   },
   openGraph: {
-    title: "Selected Work — Full-Stack Projects | HARIS.DEV",
+    title: `Selected Work — Case Studies | ${personalInfo.brandName}`,
     description:
-      "A curated directory of custom web systems, client platforms, and standalone applications built with React, Next.js, Node.js, and MongoDB.",
+      "Production platforms, PostgreSQL double-entry ledgers, multi-role B2B portals, and networked Python systems by Muhammad Haris.",
     url: "/projects",
     type: "website",
     images: [
       {
-        url: "/projects/writely-laptop.png",
+        url: "/projects/saldo-app.jpg",
         width: 1200,
-        height: 630,
-        alt: "HARIS.DEV Selected Projects",
+        height: 675,
+        alt: "Muhammad Haris — Selected Engineering Case Studies",
       },
     ],
   },

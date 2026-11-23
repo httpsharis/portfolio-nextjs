@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#170b09"/>
+      <stop offset="60%" stop-color="#1f1210"/>
+      <stop offset="100%" stop-color="#0d2324"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="78%" cy="22%" r="48%">
+      <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#FF6B4A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tealGlow" cx="18%" cy="85%" r="45%">
+      <stop offset="0%" stop-color="#56d9d8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#56d9d8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <rect width="1600" height="900" fill="url(#tealGlow)"/>
+
+  <!-- Browser Window Frame -->
+  <rect x="88" y="64" width="1424" height="772" rx="14" fill="#1d100e" stroke="#f5f1ea" stroke-opacity="0.14" stroke-width="1.5"/>
+  <!-- Top Bar -->
+  <rect x="88" y="64" width="1424" height="48" rx="14" fill="#261815"/>
+  <rect x="88" y="96" width="1424" height="16" fill="#261815"/>
+  <line x1="88" y1="112" x2="1512" y2="112" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <circle cx="118" cy="88" r="6" fill="#FF6B4A" fill-opacity="0.8"/>
+  <circle cx="138" cy="88" r="6" fill="#e1bfb8" fill-opacity="0.45"/>
+  <circle cx="158" cy="88" r="6" fill="#56d9d8" fill-opacity="0.6"/>
+  <rect x="520" y="76" width="560" height="24" rx="6" fill="#170b09" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="800" y="92" text-anchor="middle" fill="#e1bfb8" font-family="monospace" font-size="12" letter-spacing="1">https://alboreaccountants.com/portal/firm</text>
+
+  <!-- Left Sidebar -->
+  <rect x="89" y="113" width="248" height="722" fill="#170b09"/>
+  <line x1="337" y1="113" x2="337" y2="835" stroke="#f5f1ea" stroke-opacity="0.09"/>
+  <text x="120" y="162" fill="#F5F1EA" font-family="sans-serif" font-weight="800" font-size="22" letter-spacing="1">ALBORÉ</text>
+  <text x="120" y="182" fill="#a88a83" font-family="monospace" font-size="10" letter-spacing="2">CLIENT PORTAL • RBAC</text>
+
+  <!-- Sidebar Role Switcher -->
+  <text x="120" y="226" fill="#a88a83" font-family="monospace" font-size="10" letter-spacing="2">ROLE ISOLATION</text>
+  <rect x="116" y="240" width="194" height="38" rx="6" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.08"/>
+  <text x="132" y="264" fill="#e1bfb8" font-family="monospace" font-size="12">/portal/admin</text>
+  <rect x="116" y="288" width="194" height="38" rx="6" fill="#0F3D3E" stroke="#56d9d8" stroke-opacity="0.5"/>
+  <text x="132" y="312" fill="#F5F1EA" font-family="monospace" font-weight="700" font-size="12">/portal/firm (RM)</text>
+  <rect x="116" y="336" width="194" height="38" rx="6" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.08"/>
+  <text x="132" y="360" fill="#e1bfb8" font-family="monospace" font-size="12">/portal/client</text>
+
+  <!-- Sidebar Navigation -->
+  <text x="120" y="418" fill="#a88a83" font-family="monospace" font-size="10" letter-spacing="2">WORKFLOWS</text>
+  <text x="132" y="452" fill="#FF6B4A" font-family="sans-serif" font-weight="600" font-size="14">Assigned Clients</text>
+  <text x="132" y="486" fill="#e1bfb8" font-family="sans-serif" font-size="14">Document Vault</text>
+  <text x="132" y="520" fill="#e1bfb8" font-family="sans-serif" font-size="14">Document Requests</text>
+  <text x="132" y="554" fill="#e1bfb8" font-family="sans-serif" font-size="14">Scoped Messaging</text>
+  <text x="132" y="588" fill="#e1bfb8" font-family="sans-serif" font-size="14">Audit Logs</text>
+
+  <!-- Security Badge -->
+  <rect x="116" y="718" width="194" height="84" rx="8" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="132" y="744" fill="#56d9d8" font-family="monospace" font-size="10" letter-spacing="1.5">SERVER-ENFORCED</text>
+  <text x="132" y="766" fill="#F5F1EA" font-family="sans-serif" font-weight="600" font-size="12">NestJS + MongoDB</text>
+  <text x="132" y="786" fill="#a88a83" font-family="monospace" font-size="10">Custom Auth • SMTP</text>
+
+  <!-- Main Workspace Header -->
+  <text x="380" y="166" fill="#FF6B4A" font-family="monospace" font-size="11" letter-spacing="2">RELATIONSHIP MANAGER WORKSPACE</text>
+  <text x="380" y="202" fill="#F5F1EA" font-family="sans-serif" font-weight="700" font-size="28">Client Engagements &amp; Document Requests</text>
+  <rect x="1286" y="168" width="184" height="40" rx="6" fill="#FF6B4A"/>
+  <text x="1378" y="193" text-anchor="middle" fill="#1d100e" font-family="monospace" font-weight="700" font-size="12">+ RAISE REQUEST</text>
+
+  <!-- 3 KPI Metric Cards -->
+  <rect x="380" y="232" width="346" height="118" rx="10" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="404" y="264" fill="#a88a83" font-family="monospace" font-size="11" letter-spacing="1.5">ACTIVE ROLE SCOPE</text>
+  <text x="404" y="304" fill="#F5F1EA" font-family="sans-serif" font-weight="800" font-size="30">3 Portals</text>
+  <text x="404" y="330" fill="#56d9d8" font-family="monospace" font-size="11">Admin • Firm RM • Client</text>
+
+  <rect x="752" y="232" width="346" height="118" rx="10" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="776" y="264" fill="#a88a83" font-family="monospace" font-size="11" letter-spacing="1.5">DATA ISOLATION</text>
+  <text x="776" y="304" fill="#F5F1EA" font-family="sans-serif" font-weight="800" font-size="30">Strict RBAC</text>
+  <text x="776" y="330" fill="#e1bfb8" font-family="monospace" font-size="11">Instant revocation on reassign</text>
+
+  <rect x="1124" y="232" width="346" height="118" rx="10" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="1148" y="264" fill="#a88a83" font-family="monospace" font-size="11" letter-spacing="1.5">PROVISIONING</text>
+  <text x="1148" y="304" fill="#F5F1EA" font-family="sans-serif" font-weight="800" font-size="30">Admin-Only</text>
+  <text x="1148" y="330" fill="#FF6B4A" font-family="monospace" font-size="11">Domain-verified staff accounts</text>
+
+  <!-- Main Table Card -->
+  <rect x="380" y="376" width="690" height="424" rx="10" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="408" y="416" fill="#F5F1EA" font-family="sans-serif" font-weight="700" font-size="17">Structured Document Requests</text>
+  <text x="970" y="416" fill="#a88a83" font-family="monospace" font-size="11">Q3 AUDIT CYCLE</text>
+  <line x1="380" y1="436" x2="1070" y2="436" stroke="#f5f1ea" stroke-opacity="0.08"/>
+
+  <!-- Table Rows -->
+  <text x="408" y="472" fill="#a88a83" font-family="monospace" font-size="11">ENGAGEMENT / DELIVERABLE</text>
+  <text x="768" y="472" fill="#a88a83" font-family="monospace" font-size="11">OWNER</text>
+  <text x="944" y="472" fill="#a88a83" font-family="monospace" font-size="11">STATUS</text>
+
+  <rect x="400" y="490" width="650" height="62" rx="6" fill="#1d100e"/>
+  <text x="418" y="518" fill="#F5F1EA" font-family="sans-serif" font-weight="600" font-size="14">VAT Return Supporting Schedules</text>
+  <text x="418" y="538" fill="#a88a83" font-family="monospace" font-size="11">Meridian Logistics Ltd • Encrypted PDF Vault</text>
+  <text x="768" y="526" fill="#e1bfb8" font-family="sans-serif" font-size="13">Assigned RM</text>
+  <rect x="938" y="508" width="96" height="26" rx="4" fill="#0F3D3E"/>
+  <text x="986" y="525" text-anchor="middle" fill="#56d9d8" font-family="monospace" font-size="11">VERIFIED</text>
+
+  <rect x="400" y="566" width="650" height="62" rx="6" fill="#1d100e"/>
+  <text x="418" y="594" fill="#F5F1EA" font-family="sans-serif" font-weight="600" font-size="14">Q3 Bank Control Reconciliations</text>
+  <text x="418" y="614" fill="#a88a83" font-family="monospace" font-size="11">Northstar Holdings • Audit Workpaper</text>
+  <text x="768" y="602" fill="#e1bfb8" font-family="sans-serif" font-size="13">Assigned RM</text>
+  <rect x="938" y="584" width="96" height="26" rx="4" fill="#352723"/>
+  <text x="986" y="601" text-anchor="middle" fill="#FF6B4A" font-family="monospace" font-size="11">IN REVIEW</text>
+
+  <rect x="400" y="642" width="650" height="62" rx="6" fill="#1d100e"/>
+  <text x="418" y="670" fill="#F5F1EA" font-family="sans-serif" font-weight="600" font-size="14">Corporate Tax Filing Confirmation</text>
+  <text x="418" y="690" fill="#a88a83" font-family="monospace" font-size="11">Vanguard Advisory • SMTP Alert Sent</text>
+  <text x="768" y="678" fill="#e1bfb8" font-family="sans-serif" font-size="13">Assigned RM</text>
+  <rect x="938" y="660" width="96" height="26" rx="4" fill="#0F3D3E"/>
+  <text x="986" y="677" text-anchor="middle" fill="#56d9d8" font-family="monospace" font-size="11">FULFILLED</text>
+
+  <rect x="400" y="718" width="650" height="62" rx="6" fill="#1d100e"/>
+  <text x="418" y="746" fill="#F5F1EA" font-family="sans-serif" font-weight="600" font-size="14">Year-End Trial Balance Export</text>
+  <text x="418" y="766" fill="#a88a83" font-family="monospace" font-size="11">Apex Industrial • Soft-Delete Audit Trail</text>
+  <text x="768" y="754" fill="#e1bfb8" font-family="sans-serif" font-size="13">Admin Audit</text>
+  <rect x="938" y="736" width="96" height="26" rx="4" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.15"/>
+  <text x="986" y="753" text-anchor="middle" fill="#e1bfb8" font-family="monospace" font-size="11">ARCHIVED</text>
+
+  <!-- Right Panel: Scoped Messaging + Architecture -->
+  <rect x="1096" y="376" width="374" height="424" rx="10" fill="#261815" stroke="#f5f1ea" stroke-opacity="0.1"/>
+  <text x="1122" y="416" fill="#F5F1EA" font-family="sans-serif" font-weight="700" font-size="17">Scoped Client Thread</text>
+  <line x1="1096" y1="436" x2="1470" y2="436" stroke="#f5f1ea" stroke-opacity="0.08"/>
+
+  <rect x="1120" y="458" width="326" height="82" rx="8" fill="#1d100e"/>
+  <text x="1138" y="482" fill="#56d9d8" font-family="monospace" font-size="10">CLIENT • MERIDIAN LOGISTICS</text>
+  <text x="1138" y="504" fill="#F5F1EA" font-family="sans-serif" font-size="13">Uploaded Q3 VAT schedules and</text>
+  <text x="1138" y="524" fill="#F5F1EA" font-family="sans-serif" font-size="13">bank statements to the vault.</text>
+
+  <rect x="1120" y="556" width="326" height="82" rx="8" fill="#0F3D3E"/>
+  <text x="1138" y="580" fill="#F5F1EA" font-family="monospace" font-size="10">RELATIONSHIP MANAGER</text>
+  <text x="1138" y="602" fill="#F5F1EA" font-family="sans-serif" font-size="13">Received and verified. Filing</text>
+  <text x="1138" y="622" fill="#F5F1EA" font-family="sans-serif" font-size="13">status updated with audit log.</text>
+
+  <rect x="1120" y="664" width="326" height="112" rx="8" fill="#170b09" stroke="#FF6B4A" stroke-opacity="0.3"/>
+  <text x="1138" y="692" fill="#FF6B4A" font-family="monospace" font-size="10" letter-spacing="1.5">ENGINEERING OWNERSHIP</text>
+  <text x="1138" y="718" fill="#F5F1EA" font-family="sans-serif" font-weight="600" font-size="13">Squad Lead (4 Developers)</text>
+  <text x="1138" y="740" fill="#e1bfb8" font-family="sans-serif" font-size="12">Next.js Frontend • API Integrations</text>
+  <text x="1138" y="760" fill="#a88a83" font-family="monospace" font-size="11">NestJS • MongoDB • Custom Auth</text>
+</svg>

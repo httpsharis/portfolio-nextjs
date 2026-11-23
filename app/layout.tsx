@@ -1,8 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
-import { personalInfo } from "@/config/site-config";
+import { SmoothScrollProvider } from "@/components/motion/SmoothScrollProvider";
+import { CursorGlow } from "@/components/motion/CursorGlow";
+import { personalInfo, siteUrl } from "@/config/site-config";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: "#1d100e",
@@ -12,56 +27,55 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://itsharis.dev"),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Muhammad Haris — Senior Full-Stack Architect | HARIS.DEV",
-    template: "%s | HARIS.DEV",
+    default: `${personalInfo.name} — ${personalInfo.role} | ${personalInfo.brandName}`,
+    template: `%s | ${personalInfo.brandName}`,
   },
   description:
-    "Portfolio of Muhammad Haris (HARIS.DEV) — Senior Full-Stack Developer specializing in custom Next.js, React, Node.js, Express, and MongoDB web platforms, speed optimization, and production maintenance.",
+    "Portfolio of Muhammad Haris — Full-Stack Software Engineer and former Squad Lead at DevLogix Technology. Production web, mobile, and distributed systems built with Next.js, TypeScript, NestJS, PostgreSQL, React Native, and Python.",
   keywords: [
     "Muhammad Haris",
+    "httpsharis",
     "HARIS.DEV",
-    "Full-Stack Developer",
-    "Next.js Architect",
-    "React Developer",
-    "Node.js Backend",
-    "MongoDB Database",
-    "Custom Web Applications",
-    "Lahore Pakistan Web Developer",
-    "Software Engineer Portfolio",
-    "Performance Speed Optimization",
+    "Full-Stack Software Engineer",
+    "Next.js Developer",
+    "TypeScript Engineer",
+    "NestJS Backend",
+    "React Native Developer",
+    "PostgreSQL Supabase RLS",
+    "Software Engineer Portfolio Pakistan",
+    "Lahore Software Engineer",
   ],
-  authors: [{ name: "Muhammad Haris", url: "https://github.com/httpsharis" }],
-  creator: "Muhammad Haris",
-  publisher: "HARIS.DEV",
+  authors: [{ name: personalInfo.name, url: personalInfo.github }],
+  creator: personalInfo.name,
+  publisher: personalInfo.brandName,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://itsharis.dev",
-    siteName: "HARIS.DEV",
-    title: "Muhammad Haris — Senior Full-Stack Architect",
+    url: siteUrl,
+    siteName: personalInfo.brandName,
+    title: `${personalInfo.name} — ${personalInfo.role}`,
     description:
-      "Custom production web platforms, automated invoicing engines, and high-performance digital systems.",
+      "Production Next.js, NestJS, React Native, PostgreSQL, and distributed Python systems engineered by Muhammad Haris.",
     images: [
       {
-        url: "/projects/writely-laptop.png",
+        url: "/projects/saldo-app.jpg",
         width: 1200,
-        height: 630,
-        alt: "Muhammad Haris — Full-Stack Developer Portfolio",
+        height: 675,
+        alt: "Muhammad Haris — Full-Stack Software Engineer Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Haris — Senior Full-Stack Architect",
+    title: `${personalInfo.name} — ${personalInfo.role}`,
     description:
-      "Building scalable digital foundations and custom production web applications.",
-    images: ["/projects/writely-laptop.png"],
-    creator: "@devharis",
+      "Shipping reliable web, mobile, and distributed systems — Next.js, TypeScript, NestJS, PostgreSQL, React Native, and Python.",
+    images: ["/projects/saldo-app.jpg"],
   },
   robots: {
     index: true,
@@ -84,38 +98,53 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Muhammad Haris",
-  alternateName: "HARIS.DEV",
-  jobTitle: "Senior Full-Stack Architect",
-  description:
-    "Full-stack developer specializing in custom website development, performance optimization, and production maintenance.",
-  url: "https://itsharis.dev",
-  email: personalInfo.email,
-  telephone: personalInfo.phone,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Lahore",
-    addressCountry: "PK",
-  },
-  sameAs: [
-    personalInfo.github,
-    personalInfo.linkedin,
-  ],
-  knowsAbout: [
-    "Next.js",
-    "React.js",
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "PostgreSQL",
-    "Docker",
-    "TypeScript",
-    "Tailwind CSS",
-    "REST APIs",
-    "Web Performance Optimization",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: personalInfo.name,
+      alternateName: personalInfo.brandName,
+      jobTitle: personalInfo.role,
+      description: personalInfo.summary,
+      url: siteUrl,
+      email: `mailto:${personalInfo.email}`,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Lahore",
+        addressCountry: "PK",
+      },
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: "Minhaj University Lahore",
+      },
+      sameAs: [personalInfo.github, personalInfo.linkedin],
+      knowsAbout: [
+        "TypeScript",
+        "Next.js",
+        "React",
+        "React Native",
+        "NestJS",
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "Supabase",
+        "MongoDB",
+        "Redis",
+        "Python",
+        "FastAPI",
+        "Docker",
+        "WebSockets",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: `${personalInfo.name} — ${personalInfo.brandName}`,
+      publisher: { "@id": `${siteUrl}/#person` },
+    },
   ],
 };
 
@@ -125,28 +154,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <body
-        className="antialiased bg-[#1d100e] text-[#F5F1EA] selection:bg-[#FF6B4A] selection:text-[#1d100e]"
+        className="antialiased bg-[#1d100e] text-[#F5F1EA] selection:bg-[#FF6B4A] selection:text-[#1d100e] editorial-grain"
         suppressHydrationWarning
       >
-        <Nav />
-        {children}
-        <Footer />
+        <a
+          href="#main-content"
+          className="visually-hidden focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#FF6B4A] focus:text-[#1d100e] focus:font-mono-label focus:font-bold"
+        >
+          Skip to main content
+        </a>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+
+        <SmoothScrollProvider>
+          <CursorGlow />
+          <Nav />
+          {children}
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );
 }
-
-
-

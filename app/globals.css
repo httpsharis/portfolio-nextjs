@@ -3,46 +3,56 @@
 @layer base {
   :root {
     --bg: #1d100e;
-    --surface: #0F3D3E;
+    --surface: #0f3d3e;
     --surface-card: #261815;
     --surface-lowest: #170b09;
     --surface-high: #352723;
-    --primary-accent: #FF6B4A;
+    --primary-accent: #ff6b4a;
     --primary-accent-hover: #ff856b;
     --on-primary: #1d100e;
-    --on-surface: #F5F1EA;
+    --on-surface: #f5f1ea;
     --on-surface-variant: #e1bfb8;
     --on-surface-faint: #a88a83;
-    --whisper-border: rgba(245, 241, 234, 0.1);
+    --whisper-border: rgba(245, 241, 234, 0.11);
     --muted-teal: rgba(15, 61, 62, 0.6);
     --tertiary-dim: #56d9d8;
+    --error-accent: #ff7a70;
+    --valid-accent: #56d9d8;
     color-scheme: dark;
-  }
-
-  /* Global Scrollbar Hiding while preserving normal scroll */
-  html,
-  body,
-  * {
-    scrollbar-width: none !important; /* Firefox */
-    -ms-overflow-style: none !important; /* IE and Edge */
-  }
-
-  html::-webkit-scrollbar,
-  body::-webkit-scrollbar,
-  *::-webkit-scrollbar {
-    display: none !important; /* Chrome, Safari, Edge */
-    width: 0 !important;
-    height: 0 !important;
   }
 
   * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
   }
 
   html {
-    scroll-behavior: smooth;
+    background-color: var(--bg);
+    color: var(--on-surface);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 107, 74, 0.4) var(--surface-lowest);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: var(--surface-lowest);
+  }
+
+  html::-webkit-scrollbar-thumb {
+    background: rgba(255, 107, 74, 0.35);
+    border-radius: 999px;
+  }
+
+  html::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 107, 74, 0.65);
   }
 
   body {
@@ -50,7 +60,7 @@
     color: var(--on-surface);
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -61,65 +71,107 @@
     text-decoration: none;
   }
 
+  /* Crisp keyboard focus rings outside clipped children */
+  :is(a, button, input, textarea):focus-visible {
+    outline: 2px solid var(--primary-accent);
+    outline-offset: 3px;
+  }
+
   .font-mono-label {
-    font-family: var(--font-jetbrains-mono), monospace;
+    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-size: 12px;
   }
 }
 
-@layer utilities {
-  .bg-surface-teal {
-    background-color: var(--surface);
-  }
-  .bg-surface-card {
-    background-color: var(--surface-card);
-  }
-  .bg-surface-lowest {
-    background-color: var(--surface-lowest);
-  }
-  .text-primary-accent {
-    color: var(--primary-accent);
-  }
-  .text-on-surface-variant {
-    color: var(--on-surface-variant);
-  }
-  .border-whisper {
-    border-color: var(--whisper-border);
-  }
-  .bg-primary-accent {
-    background-color: var(--primary-accent);
-  }
-  .hover-primary-accent:hover {
-    background-color: var(--primary-accent-hover);
-  }
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-
-  /* Animated underline draw left-to-right */
-  .animated-underline {
-    position: relative;
-    display: inline-block;
-  }
-  .animated-underline::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background-color: var(--primary-accent);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .animated-underline:hover::after {
-    width: 100%;
-  }
+/* Subtle editorial paper-grain depth overlay (zero layout cost) */
+.editorial-grain {
+  background-image: radial-gradient(
+    rgba(245, 241, 234, 0.04) 1px,
+    transparent 0
+  );
+  background-size: 24px 24px;
 }
 
+/* Animated hover underline (compositor scaleX) */
+.animated-underline {
+  position: relative;
+}
 
+.animated-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--primary-accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
+.animated-underline:hover::after,
+.animated-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Accessible visually-hidden helper for screen reader live regions */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Form validation after user interaction (:user-invalid with fallback class) */
+.form-field-control {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(245, 241, 234, 0.22);
+  padding: 0.75rem 0;
+  color: var(--on-surface);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.form-field-control::placeholder {
+  color: var(--on-surface-faint);
+}
+
+.form-field-control:focus {
+  outline: none;
+  border-bottom-color: var(--primary-accent);
+}
+
+.form-field-control:focus-visible {
+  outline: 2px solid var(--primary-accent);
+  outline-offset: 4px;
+}
+
+.form-error-msg {
+  display: none;
+  color: var(--error-accent);
+  font-size: 0.8rem;
+  margin-top: 0.45rem;
+}
+
+.form-field-control:is(:user-invalid, .user-invalid-fallback) {
+  border-bottom-color: var(--error-accent);
+}
+
+.form-field-control:is(:user-invalid, .user-invalid-fallback) + .form-error-msg {
+  display: block;
+}
+
+.form-field-control:is(:user-valid, .user-valid-fallback) {
+  border-bottom-color: var(--valid-accent);
+}

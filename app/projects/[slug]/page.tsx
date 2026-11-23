@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects } from "@/config/site-config";
+import { personalInfo, projects, siteUrl } from "@/config/site-config";
 import { ArrowLeft, ArrowRight, ExternalLink, Github, Lightbulb, Compass } from "lucide-react";
 import { TechIcon } from "@/components/ui/TechIcons";
 import type { Metadata } from "next";
@@ -22,31 +22,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = projects.find((p) => p.slug === slug);
   if (!project) return { title: "Project Not Found" };
 
+  // Social crawlers prefer raster OG images over SVG
+  const ogImage = project.image.endsWith(".svg")
+    ? "/projects/saldo-app.jpg"
+    : project.image;
+
   return {
-    title: `${project.title} — Architectural Case Study`,
+    title: `${project.title} — Engineering Case Study`,
     description: `${project.tagline} ${project.desc}`,
     alternates: {
       canonical: `/projects/${project.slug}`,
     },
     openGraph: {
-      title: `${project.title} — Case Study | HARIS.DEV`,
+      title: `${project.title} — Case Study | ${personalInfo.brandName}`,
       description: project.desc,
       url: `/projects/${project.slug}`,
       type: "article",
       images: [
         {
-          url: project.image,
+          url: ogImage,
           width: 1200,
-          height: 630,
+          height: 675,
           alt: `${project.title} Architecture Preview`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} — Architectural Case Study`,
+      title: `${project.title} — Engineering Case Study`,
       description: project.tagline,
-      images: [project.image],
+      images: [ogImage],
     },
   };
 }
@@ -54,37 +59,77 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectCaseStudyPage({ params }: Props) {
   const { slug } = await params;
   const projectIndex = projects.findIndex((p) => p.slug === slug);
-  
+
   if (projectIndex === -1) {
     notFound();
   }
 
   const project = projects[projectIndex];
-  const prevProject = projects[(projectIndex - 1 + projects.length) % projects.length];
+  const prevProject =
+    projects[(projectIndex - 1 + projects.length) % projects.length];
   const nextProject = projects[(projectIndex + 1) % projects.length];
 
+  const caseStudySchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Projects",
+            item: `${siteUrl}/projects`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: project.title,
+            item: `${siteUrl}/projects/${project.slug}`,
+          },
+        ],
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        name: project.title,
+        description: project.desc,
+        programmingLanguage: project.tags,
+        codeRepository: project.github,
+        url: project.link ?? `${siteUrl}/projects/${project.slug}`,
+        author: { "@id": `${siteUrl}/#person` },
+      },
+    ],
+  };
+
   return (
-    <main className="pt-32 pb-24 min-h-screen">
+    <main id="main-content" className="relative z-10 flex-1 pt-32 pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
+      />
+
       <div className="max-w-6xl mx-auto px-6 md:px-12">
-        {/* Navigation Breadcrumb */}
         <Link
           href="/projects"
           className="inline-flex items-center gap-2 font-mono-label text-xs text-[#FF6B4A] hover:text-[#F5F1EA] transition-colors mb-8 group"
         >
-          <ArrowLeft size={16} className="transform group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft
+            size={15}
+            aria-hidden="true"
+            className="transform group-hover:-translate-x-1 transition-transform"
+          />
           Back to Selected Work
         </Link>
 
-        {/* 1. Case Study Header */}
+        {/* Case Study Header */}
         <header className="pb-10 border-b border-[rgba(245,241,234,0.12)] mb-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 font-mono-label text-xs text-[#FF6B4A] tracking-widest uppercase mb-3">
-                <span>CASE STUDY</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#56d9d8]"></span>
-                <span className="text-[#56d9d8]">{project.subtitle}</span>
-              </div>
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter text-[#F5F1EA] mb-4">
+              <p className="font-mono-label text-xs text-[#56d9d8] tracking-widest uppercase mb-3">
+                CASE STUDY · {project.subtitle}
+              </p>
+              <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[#F5F1EA] mb-4">
                 {project.title}
               </h1>
               <p className="text-lg md:text-xl text-[#e1bfb8] leading-relaxed">
@@ -92,37 +137,38 @@ export default async function ProjectCaseStudyPage({ params }: Props) {
               </p>
             </div>
 
-            {/* Action CTAs */}
-            <div className="flex flex-wrap gap-4 shrink-0">
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B4A] text-[#1d100e] font-mono-label font-bold text-xs uppercase tracking-wider hover:bg-[#ff856b] transition-all shadow-lg group"
-              >
-                Launch Live App
-                <ExternalLink size={14} className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#FF6B4A] text-[#1d100e] font-mono-label font-bold text-xs hover:bg-[#ff856b] transition-colors"
+                >
+                  Launch Live App
+                  <ExternalLink size={14} aria-hidden="true" />
+                </a>
+              )}
 
               {project.github && (
                 <a
                   href={project.github}
                   target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-[rgba(245,241,234,0.2)] text-[#F5F1EA] font-mono-label text-xs uppercase tracking-wider hover:bg-[#261815] transition-all"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 border border-[rgba(245,241,234,0.22)] text-[#F5F1EA] font-mono-label text-xs hover:border-[#FF6B4A] hover:text-[#FF6B4A] transition-colors"
                 >
-                  GitHub Source <Github size={14} />
+                  <Github size={14} aria-hidden="true" />
+                  GitHub Source
                 </a>
               )}
             </div>
           </div>
 
-          {/* Tech Stack Chips with SVG Icons */}
-          <div className="flex flex-wrap gap-2.5 mt-8 pt-6 border-t border-[rgba(245,241,234,0.06)]">
-            {project.tags.map((tag, i) => (
+          <div className="flex flex-wrap gap-2.5 mt-8 pt-6 border-t border-[rgba(245,241,234,0.08)]">
+            {project.tags.map((tag) => (
               <span
-                key={i}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#261815] text-[#F5F1EA] font-mono-label text-xs border border-[rgba(245,241,234,0.12)] shadow-sm"
+                key={tag}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#261815] text-[#F5F1EA] font-mono-label text-xs border border-[rgba(245,241,234,0.12)]"
               >
                 <TechIcon name={tag} className="w-3.5 h-3.5 text-[#FF6B4A]" />
                 {tag}
@@ -131,107 +177,97 @@ export default async function ProjectCaseStudyPage({ params }: Props) {
           </div>
         </header>
 
-        {/* 2. Main Screenshot Hero (Consistent 16:9 Aspect Ratio) */}
-        <div className="relative w-full aspect-[16/9] bg-[#170b09] overflow-hidden border border-[rgba(245,241,234,0.18)] mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+        {/* Hero Visual (LCP candidate) */}
+        <div className="relative w-full aspect-[16/9] bg-[#170b09] overflow-hidden border border-[rgba(245,241,234,0.16)] mb-16 shadow-[0_24px_60px_rgba(0,0,0,0.65)]">
           <Image
             src={project.image}
             alt={`${project.title} Preview`}
             fill
             sizes="100vw"
-            className="object-cover w-full h-full"
+            className="object-cover"
             priority
+            fetchPriority="high"
           />
         </div>
 
-        {/* 3. The Story Section */}
+        {/* Architecture Breakdown */}
         <section className="mb-20">
           <div className="flex items-center gap-3 mb-8">
-            <Compass className="text-[#FF6B4A]" size={24} />
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F5F1EA] tracking-tight uppercase">
-              The Story
+            <Compass className="text-[#FF6B4A]" size={22} aria-hidden="true" />
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F5F1EA] tracking-tight">
+              Architecture &amp; Decisions
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* The Problem */}
-            <div className="p-8 bg-[#261815] border border-[rgba(245,241,234,0.1)] flex flex-col justify-between">
-              <div>
-                <span className="font-mono-label text-xs text-[#FF6B4A] block mb-3 tracking-widest">
-                  01 / THE PROBLEM
-                </span>
-                <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
-                  What problem was this solving?
-                </h3>
-                <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
-                  {project.story.problem}
-                </p>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-8 bg-[#261815] border border-[rgba(245,241,234,0.1)]">
+              <span className="font-mono-label text-xs text-[#FF6B4A] block mb-3">
+                01 / THE PROBLEM
+              </span>
+              <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
+                What problem was this solving?
+              </h3>
+              <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
+                {project.story.problem}
+              </p>
             </div>
 
-            {/* Tech Choices */}
-            <div className="p-8 bg-[#261815] border border-[rgba(245,241,234,0.1)] flex flex-col justify-between">
-              <div>
-                <span className="font-mono-label text-xs text-[#56d9d8] block mb-3 tracking-widest">
-                  02 / TECHNICAL CHOICES
-                </span>
-                <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
-                  Why this specific stack?
-                </h3>
-                <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
-                  {project.story.techChoices}
-                </p>
-              </div>
+            <div className="p-8 bg-[#261815] border border-[rgba(245,241,234,0.1)]">
+              <span className="font-mono-label text-xs text-[#56d9d8] block mb-3">
+                02 / TECHNICAL CHOICES
+              </span>
+              <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
+                Why this specific stack?
+              </h3>
+              <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
+                {project.story.techChoices}
+              </p>
             </div>
 
-            {/* Hardest Technical Decision */}
-            <div className="p-8 bg-[#170b09] border border-[rgba(245,241,234,0.1)] flex flex-col justify-between">
-              <div>
-                <span className="font-mono-label text-xs text-[#FF6B4A] block mb-3 tracking-widest">
-                  03 / ARCHITECTURE CALL
-                </span>
-                <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
-                  Hardest technical decision made
-                </h3>
-                <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
-                  {project.story.hardestDecision}
-                </p>
-              </div>
+            <div className="p-8 bg-[#170b09] border border-[rgba(245,241,234,0.1)]">
+              <span className="font-mono-label text-xs text-[#FF6B4A] block mb-3">
+                03 / ARCHITECTURE CALL
+              </span>
+              <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
+                Hardest engineering decision
+              </h3>
+              <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
+                {project.story.hardestDecision}
+              </p>
             </div>
 
-            {/* Hindsight & Learnings */}
-            <div className="p-8 bg-[#170b09] border border-[rgba(245,241,234,0.1)] flex flex-col justify-between">
-              <div>
-                <span className="font-mono-label text-xs text-[#56d9d8] block mb-3 tracking-widest">
-                  04 / HINDSIGHT
-                </span>
-                <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
-                  What would be done differently now?
-                </h3>
-                <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
-                  {project.story.hindsight}
-                </p>
-              </div>
+            <div className="p-8 bg-[#170b09] border border-[rgba(245,241,234,0.1)]">
+              <span className="font-mono-label text-xs text-[#56d9d8] block mb-3">
+                04 / HINDSIGHT
+              </span>
+              <h3 className="text-xl font-bold text-[#F5F1EA] mb-3">
+                What I&apos;d evolve next
+              </h3>
+              <p className="text-sm md:text-base text-[#e1bfb8] leading-relaxed">
+                {project.story.hindsight}
+              </p>
             </div>
           </div>
         </section>
 
-        {/* 4. Screenshot Gallery (If multiple gallery items exist) */}
+        {/* Gallery */}
         {project.gallery.length > 1 && (
           <section className="mb-20">
-            <h2 className="text-2xl font-bold text-[#F5F1EA] mb-8 uppercase tracking-tight">
+            <h2 className="text-2xl font-bold text-[#F5F1EA] mb-8 tracking-tight">
               Interface Gallery
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {project.gallery.map((imgUrl, i) => (
                 <div
-                  key={i}
-                  className="relative w-full aspect-[16/9] bg-[#170b09] border border-[rgba(245,241,234,0.12)] overflow-hidden shadow-xl"
+                  key={imgUrl}
+                  className="relative w-full aspect-[16/9] bg-[#170b09] border border-[rgba(245,241,234,0.12)] overflow-hidden"
                 >
                   <Image
                     src={imgUrl}
                     alt={`${project.title} Interface ${i + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
                     className="object-cover"
                   />
                 </div>
@@ -240,38 +276,38 @@ export default async function ProjectCaseStudyPage({ params }: Props) {
           </section>
         )}
 
-        {/* 5. Challenges & Learnings (Numbered Format) */}
-        <section className="mb-24">
+        {/* Challenges */}
+        <section className="mb-20">
           <div className="flex items-center gap-3 mb-8">
-            <Lightbulb className="text-[#FF6B4A]" size={24} />
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F5F1EA] tracking-tight uppercase">
-              Key Engineering Challenges &amp; Solutions
+            <Lightbulb className="text-[#FF6B4A]" size={22} aria-hidden="true" />
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F5F1EA] tracking-tight">
+              Key Engineering Challenges
             </h2>
           </div>
 
           <div className="space-y-6">
-            {project.challenges.map((challenge, idx) => (
+            {project.challenges.map((challenge) => (
               <div
-                key={idx}
-                className="p-8 bg-[#261815] border border-[rgba(245,241,234,0.1)] hover:border-[#FF6B4A]/40 transition-colors"
+                key={challenge.title}
+                className="p-8 bg-[#261815] border border-[rgba(245,241,234,0.1)]"
               >
-                <h3 className="text-xl font-bold text-[#F5F1EA] mb-4 flex items-center gap-3">
-                  <span className="font-mono-label text-sm text-[#FF6B4A]">{challenge.title}</span>
+                <h3 className="font-mono-label text-sm text-[#FF6B4A] mb-4">
+                  {challenge.title}
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                  <div className="space-y-1">
-                    <span className="font-mono-label text-[11px] text-[#e1bfb8] uppercase block">
-                      The Challenge
-                    </span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <p className="font-mono-label text-[10px] text-[#a88a83] mb-1.5">
+                      PROBLEM
+                    </p>
                     <p className="text-sm text-[#e1bfb8] leading-relaxed">
                       {challenge.problem}
                     </p>
                   </div>
-                  <div className="space-y-1">
-                    <span className="font-mono-label text-[11px] text-[#56d9d8] uppercase block">
-                      The Architectural Solution
-                    </span>
-                    <p className="text-sm text-[#F5F1EA] leading-relaxed font-medium">
+                  <div>
+                    <p className="font-mono-label text-[10px] text-[#56d9d8] mb-1.5">
+                      SOLUTION
+                    </p>
+                    <p className="text-sm text-[#F5F1EA] leading-relaxed">
                       {challenge.solution}
                     </p>
                   </div>
@@ -281,29 +317,31 @@ export default async function ProjectCaseStudyPage({ params }: Props) {
           </div>
         </section>
 
-        {/* 6. Footer Navigation (Previous / All / Next) */}
-        <nav className="pt-12 border-t border-[rgba(245,241,234,0.15)] flex flex-col sm:flex-row items-center justify-between gap-6">
+        {/* Next / Previous Case Studies */}
+        <nav
+          aria-label="Case study pagination"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 border-t border-[rgba(245,241,234,0.12)]"
+        >
           <Link
             href={`/projects/${prevProject.slug}`}
-            className="flex items-center gap-3 text-sm font-mono-label text-[#e1bfb8] hover:text-[#FF6B4A] transition-colors group"
+            className="p-6 bg-[#261815] border border-[rgba(245,241,234,0.1)] hover:border-[#FF6B4A]/60 transition-colors"
           >
-            <ArrowLeft size={16} className="transform group-hover:-translate-x-1.5 transition-transform" />
-            <span>PREV: {prevProject.title}</span>
-          </Link>
-
-          <Link
-            href="/projects"
-            className="px-6 py-2.5 bg-[#0F3D3E] text-[#F5F1EA] font-mono-label text-xs uppercase tracking-widest hover:bg-[#FF6B4A] hover:text-[#1d100e] transition-all"
-          >
-            All Projects
+            <span className="font-mono-label text-[10px] text-[#a88a83] flex items-center gap-1.5 mb-2">
+              <ArrowLeft size={13} aria-hidden="true" />
+              PREVIOUS PROJECT
+            </span>
+            <p className="text-lg font-bold text-[#F5F1EA]">{prevProject.title}</p>
           </Link>
 
           <Link
             href={`/projects/${nextProject.slug}`}
-            className="flex items-center gap-3 text-sm font-mono-label text-[#e1bfb8] hover:text-[#FF6B4A] transition-colors group"
+            className="p-6 bg-[#261815] border border-[rgba(245,241,234,0.1)] hover:border-[#FF6B4A]/60 transition-colors sm:text-right"
           >
-            <span>NEXT: {nextProject.title}</span>
-            <ArrowRight size={16} className="transform group-hover:translate-x-1.5 transition-transform" />
+            <span className="font-mono-label text-[10px] text-[#a88a83] inline-flex items-center gap-1.5 mb-2">
+              NEXT PROJECT
+              <ArrowRight size={13} aria-hidden="true" />
+            </span>
+            <p className="text-lg font-bold text-[#F5F1EA]">{nextProject.title}</p>
           </Link>
         </nav>
       </div>
